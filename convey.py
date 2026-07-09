@@ -1,0 +1,120 @@
+#!/usr/bin/env python
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QMenuBar,
+                               QStackedLayout, QLabel)
+
+import qside.helper as HLPR
+import qside.action_function as AF
+import qside.menubar as MB
+import qside.toolbar as TB
+import qside.surface as SF
+import qside.tool as TL
+from qside.action import Action
+from PySide6.QtCore import Qt
+# PySide.QtCore.QCoreApplication.instance()
+
+# When you want to pass command line args on to your app
+import sys
+
+class PSideApp(QApplication):
+
+
+    def __init__(self, *, args=sys.argv):
+        super().__init__()
+        # TODO: Do something with sys.argv
+        # E.g., look for opts to indicate we should get image from clipboard
+        #
+        # self.use_clipboard = True
+
+    def set_active_window(self, window):
+        self.active_window = window
+
+
+# PSideApp instance can be reached w/ PySide.QtCore.QCoreApplication.instance()
+class MainWindow(QMainWindow):
+    def __init__(self, title="My App"):
+        super().__init__()
+
+        self.setWindowTitle(title)
+
+        # Setup Menubar and Items
+        menubar = MB.MenuBar(window=self)
+        self.setMenuBar(menubar)
+
+        self.menuBar().add_menu(name='&File')
+        self.menuBar().add_menu(name='&Edit')
+        menu_view = self.menuBar().add_menu(name='&View')
+        #   Submenu Zoom for &View
+        menu_view.addMenu('&Zoom')
+
+        self.menuBar().add_menu(name='&Help')
+
+        # Toolbar
+        self.toolbar = TB.ToolBar(window=self)
+        self.addToolBar(Qt.LeftToolBarArea, self.toolbar)
+
+
+        # *** Actions ***
+        act_file_open = Action(action_name="&Open", func=AF.file_open,
+                               parent=self)
+
+        act_file_exit = Action(action_name="&Exit", func=self.close, parent=self)
+
+        act_highlighter = Action(icon="./icon/highlighter.png",
+                                 action_name="highlighter", func=TL.highlighter,
+                                 parent=self)
+        act_highlighter.setCheckable(True)
+
+        act_pen = Action("optional arg1 to func", icon="./icon/pen.png",
+                                 action_name="pen", func=TL.pen,
+                                 parent=self)
+        act_pen.setCheckable(True)
+
+
+        # WIRE Actions to appropriate controls:
+        self.menuBar().add_menu_action(menu="&File", action=act_file_open)
+        self.menuBar().add_menu_action(menu="&File", action=act_file_exit)
+
+
+        self.toolbar.add_action(action=act_highlighter)
+        self.toolbar.add_action(action=act_pen)
+
+        # ---------- Canvas and Interface Setup -------------
+        # Our canvas label use as target of our images:
+        # Images may be manually load use menubar > File > Open's action
+        # Future method will include opening image at app start and grabbing
+        # from clipboard when appropriate command-line arg. is passed.
+        #self.canvas_label = QLabel(self)
+        self.canvas_label = SF.Canvas(parent=self)
+
+        layout = QStackedLayout()
+
+        layout.addWidget(self.canvas_label)
+        print(f"canvas_label added at index: {layout.currentIndex()}")
+
+        widget = QWidget()
+        widget.setLayout(layout)
+
+        # Set the central widget of the Window.
+        self.setCentralWidget(widget)
+
+
+def main():
+    # Root of your UI App
+    #app = QApplication(sys.argv)
+    app = PSideApp(args=sys.argv)
+
+    # Create a Qt widget, which will be our window.
+    window = MainWindow('Convey')
+
+    app.set_active_window(window)
+
+    window.show()  # Windows are hidden by default.
+
+    # Start the event loop.
+    app.exec()
+
+
+if __name__ == '__main__':
+    # TODO: Evaluate command-line args and bail with usage message
+    # if appropriate. Otherwise call main.
+	main()
