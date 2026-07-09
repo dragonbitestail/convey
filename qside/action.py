@@ -7,6 +7,8 @@ class Action(QAction):
                  func=lambda: None,
                  parent=None):
 
+        print(f"[DEBUG]: Action > __init__: func is: {type(func)}")
+
         if icon is None:
             super().__init__(action_name, parent)
         else:
@@ -16,10 +18,12 @@ class Action(QAction):
 
         self.icon_initial = QIcon(icon)
 
-        #self.triggered.connect(func)
-        self.triggered.connect(
-            lambda checked: self.handle_trigger(checked, func, *args)
-        )
+        if str(type(func)) == "<class 'builtin_function_or_method'>":
+            self.triggered.connect(func)
+        else:
+            self.triggered.connect(
+                lambda checked: self.handle_trigger(checked, func, *args)
+            )
 
 
     def handle_trigger(self, checked, func, *args):
@@ -30,14 +34,15 @@ class Action(QAction):
         icon_unchecked = f"{icon_pref}.{icon_ext}"
 
         print((f"[DEBUG] Action > handle_trigger:  toggled for {self.text()}"
-               f" with checked state = {checked}" f" and args: {args}")
+               f" with checked state = {checked}"
+               f", func type: {type(func)} " f", args: {args}")
               )
 
         # Reset icons to initial icon:
         toolbar = QCApp.instance().active_window.toolbar
         toolbar_actions = toolbar.get_group_actions("root")
         for action in toolbar_actions:
-            print(f'[DEBUG]: Action > handle_trigger: actions w/ action: {action.text()}')
+            print(f"[DEBUG]: Action > handle_trigger: actions w/ action: {action.text()}")
             action.setIcon(action.icon_initial)
 
         if checked:
