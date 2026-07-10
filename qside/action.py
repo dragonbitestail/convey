@@ -1,4 +1,4 @@
-from PySide6.QtGui import QAction, QIcon, QKeySequence
+from PySide6.QtGui import QAction, QIcon
 from PySide6.QtCore import QCoreApplication as QCApp
 
 class Action(QAction):
@@ -31,7 +31,6 @@ class Action(QAction):
         icon_ext = "png"
 
         icon_checked = f"{icon_pref}_checked.{icon_ext}"
-        icon_unchecked = f"{icon_pref}.{icon_ext}"
 
         print((f"[DEBUG] Action > handle_trigger:  toggled for {self.text()}"
                f" with checked state = {checked}"
@@ -44,6 +43,8 @@ class Action(QAction):
         for action in toolbar_actions:
             print(f"[DEBUG]: Action > handle_trigger: actions w/ action: {action.text()}")
             action.setIcon(action.icon_initial)
+            if action.text() != self.text():
+                action.setChecked(False)
 
         if checked:
             self.setIcon(QIcon(icon_checked))

@@ -25,3 +25,12 @@ def highlighter(signal):
 def pen(signal, *args):
 
     print(f"[DEBUG] pen() activated = {signal}, w/ args: {args}")
+
+def text(signal, *args):
+
+    print(f"[DEBUG] text() activated = {signal}, w/ args: {args}")
+
+
+def todo(signal, *args):
+
+    print(f"[DEBUG] todo() activated = {signal}, w/ args: {args}")

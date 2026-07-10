@@ -16,7 +16,7 @@ class Canvas(QtWidgets.QLabel):
         self.last_x, self.last_y = None, None
 
         if tool is None:
-            self.pen_color = QtGui.QColor(255, 255, 0, a=22)
+            self.pen_color = QtGui.QColor(255, 255, 0, a=17)
             self.pen_width = 9
 
     def set_pen_color(self, c):
@@ -34,6 +34,8 @@ class Canvas(QtWidgets.QLabel):
             canvas
         )
         #painter.setOpacity(0.5)
+        painter.setRenderHint(QtGui.QPainter.RenderHint.Antialiasing, True)
+
         p = painter.pen()
         p.setWidth(self.pen_width)
         p.setColor(self.pen_color)
@@ -50,3 +52,6 @@ class Canvas(QtWidgets.QLabel):
     def mouseReleaseEvent(self, e):
         self.last_x = None
         self.last_y = None
+
+    #def paintEvent(self, e):
+    #    print(f"paintEvent(): w/ e = {e}")

@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QFileDialog
 from PySide6.QtGui import QPixmap, QImage, QPicture
 from PySide6.QtCore import QCoreApplication as QCApp
+from PySide6.QtCore import QSize
 from PIL import Image as PilImage
 
 from io import BytesIO
@@ -36,7 +37,11 @@ def file_open(signal):
         pixmap = QPixmap()
         pixmap.loadFromData(buffer.read())
 
-        QCApp.instance().active_window.canvas_label.setPixmap(pixmap)
+        #canvas = QCApp.instance().active_window.canvas_label.setPixmap(pixmap)
+        canvas = QCApp.instance().active_window.canvas_label
+        #canvas.resize(pixmap.width(), pixmap.height())
+        canvas.setMaximumSize(QSize(pixmap.width(), pixmap.height()))
+        canvas.setPixmap(pixmap)
 
         #pict = QPicture()
         #pict.loadFromData(buffer.read())

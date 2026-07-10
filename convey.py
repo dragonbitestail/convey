@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QMenuBar,
-                               QStackedLayout, QLabel)
+                               QStackedLayout, QLabel, QSizePolicy)
 
 import qside.helper as HLPR
 import qside.action_function as AF
@@ -49,25 +49,40 @@ class MainWindow(QMainWindow):
         self.menuBar().add_menu(name='&Help')
 
         # Toolbar
-        self.toolbar = TB.ToolBar(window=self)
+        self.toolbar = TB.ToolBar(window=self, icon_width=48, icon_height=48)
         self.addToolBar(Qt.LeftToolBarArea, self.toolbar)
 
 
         # *** Actions ***
+
+
+
         act_file_open = Action(action_name="&Open", func=AF.file_open,
                                parent=self)
 
         act_file_exit = Action(action_name="&Exit", func=self.close, parent=self)
+
+        # *** Actions -- Toolbar ***
+        act_config = Action(icon="./icon/gear.png",
+                                 action_name="tool_config", func=TL.todo,
+                                 parent=self)
+
 
         act_highlighter = Action(icon="./icon/highlighter.png",
                                  action_name="highlighter", func=TL.highlighter,
                                  parent=self)
         act_highlighter.setCheckable(True)
 
-        act_pen = Action("optional arg1 to func", icon="./icon/pen.png",
+        #act_pen = Action("optional arg1 to func", icon="./icon/pen.png",
+        act_pen = Action(icon="./icon/pen.png",
                                  action_name="pen", func=TL.pen,
                                  parent=self)
         act_pen.setCheckable(True)
+
+        act_text = Action(icon="./icon/text.png",
+                                 action_name="text", func=TL.text,
+                                 parent=self)
+        act_text.setCheckable(True)
 
 
         # WIRE Actions to appropriate controls:
@@ -77,6 +92,7 @@ class MainWindow(QMainWindow):
 
         self.toolbar.add_action(action=act_highlighter)
         self.toolbar.add_action(action=act_pen)
+        self.toolbar.add_action(action=act_text)
 
         # ---------- Canvas and Interface Setup -------------
         # Our canvas label use as target of our images:
