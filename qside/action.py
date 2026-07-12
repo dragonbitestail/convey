@@ -37,14 +37,9 @@ class Action(QAction):
                f", func type: {type(func)} " f", args: {args}")
               )
 
-        # Reset tools icons to initial icon:
-        toolbar = QCApp.instance().activeWindow().toolbar
-        toolbar_actions = toolbar.get_group_actions("root")
-        for action in toolbar_actions:
-            print(f"[DEBUG]: Action > handle_trigger: actions w/ action: {action.text()}")
-            action.setIcon(action.icon_initial)
-            if action.text() != self.text():
-                action.setChecked(False)
+        # Reset tools icons to initial icon & False state unless in default
+        # root group:
+        self._reset_icons()
 
         if checked:
             self.setIcon(QIcon(icon_checked))
@@ -54,3 +49,15 @@ class Action(QAction):
             func(checked, *args)
         else:
             func(checked)
+
+    def _reset_icons(self):
+        toolbar = QCApp.instance().activeWindow().toolbar
+        if (self.text() in toolbar.action_group_map and
+            toolbar.action_group_map[self.text()] != 'root'):
+            toolbar_actions = toolbar.get_group_actions("tools")
+            for action in toolbar_actions:
+                print(f"[DEBUG]: Action > handle_trigger: reset for: {action.text()}")
+                action.setIcon(action.icon_initial)
+                if action.text() != self.text():
+                    action.setChecked(False)
+

@@ -102,9 +102,9 @@ class MainWindow(QMainWindow):
 
         self.toolbar.add_action(action=act_config)
 
-        self.toolbar.add_action(action=act_highlighter)
-        self.toolbar.add_action(action=act_pen)
-        self.toolbar.add_action(action=act_text)
+        self.toolbar.add_action(action=act_highlighter, group="tools")
+        self.toolbar.add_action(action=act_pen, group="tools")
+        self.toolbar.add_action(action=act_text, group="tools")
 
         # ---------- Canvas and Interface Setup -------------
         # Our canvas label use as target of our images:

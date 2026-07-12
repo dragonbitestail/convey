@@ -15,7 +15,8 @@ class ToolBar(QToolBar):
 
         self.window = window
 
-        self.groups = { }
+        self.groups = {}
+        self.action_group_map = {}
 
 
     def add_action(self, action, group="root"):
@@ -27,6 +28,8 @@ class ToolBar(QToolBar):
             self.groups[group] = []
 
         self.groups[group].append(action)
+
+        self.action_group_map[action.text()] = group
 
 
     # Based on group name return list of actions belong to the group
