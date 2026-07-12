@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QMenuBar,
-                               QStackedLayout, QLabel, QSizePolicy)
 
-import qside.helper as HLPR
+import argparse
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget,
+                               QStackedLayout,)
+
 import qside.action_function as AF
 import qside.menubar as MB
 import qside.toolbar as TB
@@ -20,10 +21,20 @@ class PSideApp(QApplication):
 
     def __init__(self, *, args=sys.argv):
         super().__init__()
-        # TODO: Do something with sys.argv
-        # E.g., look for opts to indicate we should get image from clipboard
-        #
-        # self.use_clipboard = True
+
+        # Look for opts to indicate we should get image from clipboard
+        parser = argparse.ArgumentParser(
+            prog='convey',
+            description='An image annotation tool'
+        )
+        parser.add_argument("-c", "--copy", help="Copy image from clipboard",
+                            action='store_true')
+        args = parser.parse_args()
+
+        # When declaring both short and long form of an argument, only long
+        # form is stored in resulting namespace.
+        if args.copy:
+            self.use_clipboard = True
 
     def set_active_window(self, window):
         self.active_window = window
@@ -116,7 +127,6 @@ class MainWindow(QMainWindow):
 
 def main():
     # Root of your UI App
-    #app = QApplication(sys.argv)
     app = PSideApp(args=sys.argv)
 
     # Create a Qt widget, which will be our window.
@@ -131,6 +141,5 @@ def main():
 
 
 if __name__ == '__main__':
-    # TODO: Evaluate command-line args and bail with usage message
-    # if appropriate. Otherwise call main.
+    # main() > PSideApp for evaluation & storage of command-line flags and args
 	main()
