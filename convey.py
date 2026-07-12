@@ -2,7 +2,9 @@
 
 import argparse
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget,
-                               QStackedLayout,)
+                               QLabel, QStackedLayout, QVBoxLayout)
+
+from PySide6.QtCore import Qt
 
 import qside.action_function as AF
 import qside.menubar as MB
@@ -10,7 +12,6 @@ import qside.toolbar as TB
 import qside.surface as SF
 import qside.tool as TL
 from qside.action import Action
-from PySide6.QtCore import Qt
 # PySide.QtCore.QCoreApplication.instance()
 
 # When you want to pass command line args on to your app
@@ -44,6 +45,8 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle(title)
 
+        self.config_win = ConfigWindow(title='Tool Configuration')
+
         # Setup Menubar and Items
         menubar = MB.MenuBar(window=self)
         self.setMenuBar(menubar)
@@ -72,7 +75,7 @@ class MainWindow(QMainWindow):
 
         # *** Actions -- Toolbar ***
         act_config = Action(icon="./icon/gear.png",
-                                 action_name="tool_config", func=TL.todo,
+                                 action_name="tool_config", func=TL.config,
                                  parent=self)
 
 
@@ -97,6 +100,7 @@ class MainWindow(QMainWindow):
         self.menuBar().add_menu_action(menu="&File", action=act_file_open)
         self.menuBar().add_menu_action(menu="&File", action=act_file_exit)
 
+        self.toolbar.add_action(action=act_config)
 
         self.toolbar.add_action(action=act_highlighter)
         self.toolbar.add_action(action=act_pen)
@@ -120,6 +124,17 @@ class MainWindow(QMainWindow):
 
         # Set the central widget of the Window.
         self.setCentralWidget(widget)
+
+
+class ConfigWindow(QWidget):
+    def __init__(self, title="My App"):
+        super().__init__()
+
+        self.setWindowTitle(title)
+        layout = QVBoxLayout()
+        self.label = QLabel("Config Window for a currently selected Tool")
+        layout.addWidget(self.label)
+        self.setLayout(layout)
 
 
 def main():

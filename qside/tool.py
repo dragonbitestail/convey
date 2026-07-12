@@ -1,4 +1,6 @@
 from PySide6.QtCore import QCoreApplication as QCApp
+from PySide6 import QtGui
+
 
 class Tool():
 
@@ -19,18 +21,24 @@ class ToolHighlighter(Tool):
 
 def highlighter(signal):
 
-    print(f"[DEBUG] highlighter() activated = {signal}")
+    print(f"[DEBUG] Tool > highlighter() activated = {signal}")
 
 
 def pen(signal, *args):
 
-    print(f"[DEBUG] pen() activated = {signal}, w/ args: {args}")
+    print(f"[DEBUG] Tool > pen() activated = {signal}, w/ args: {args}")
 
 def text(signal, *args):
 
-    print(f"[DEBUG] text() activated = {signal}, w/ args: {args}")
+    print(f"[DEBUG] Tool > text() activated = {signal}, w/ args: {args}")
+
+
+def config(signal, *args):
+
+    print(f"[DEBUG] Tool > config() activated = {signal}, w/ args: {args}")
+    QCApp.instance().activeWindow().config_win.show()
 
 
 def todo(signal, *args):
 
-    print(f"[DEBUG] todo() activated = {signal}, w/ args: {args}")
+    print(f"[DEBUG] Tool > todo() activated = {signal}, w/ args: {args}")
