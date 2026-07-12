@@ -36,9 +36,6 @@ class PSideApp(QApplication):
         if args.copy:
             self.use_clipboard = True
 
-    def set_active_window(self, window):
-        self.active_window = window
-
 
 # PSideApp instance can be reached w/ PySide.QtCore.QCoreApplication.instance()
 class MainWindow(QMainWindow):
@@ -131,8 +128,6 @@ def main():
 
     # Create a Qt widget, which will be our window.
     window = MainWindow('Convey')
-
-    app.set_active_window(window)
 
     window.show()  # Windows are hidden by default.
 

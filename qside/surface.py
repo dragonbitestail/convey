@@ -1,4 +1,4 @@
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtGui, QtWidgets
 from PySide6.QtCore import Qt
 from PySide6.QtCore import QCoreApplication as QCApp
 
@@ -29,7 +29,7 @@ class Canvas(QtWidgets.QLabel):
             self.last_y = pos.y()
             return # Ignore the first time.
 
-        canvas = QCApp.instance().active_window.canvas_label.pixmap()
+        canvas = QCApp.instance().activeWindow().canvas_label.pixmap()
         painter = QtGui.QPainter(
             canvas
         )
@@ -43,7 +43,7 @@ class Canvas(QtWidgets.QLabel):
         painter.drawLine(self.last_x, self.last_y, pos.x(), pos.y())
         painter.end()
 
-        QCApp.instance().active_window.canvas_label.setPixmap(canvas)
+        QCApp.instance().activeWindow().canvas_label.setPixmap(canvas)
 
         # Update the origin for next time.
         self.last_x = pos.x()

@@ -37,8 +37,8 @@ def file_open(signal):
         pixmap = QPixmap()
         pixmap.loadFromData(buffer.read())
 
-        #canvas = QCApp.instance().active_window.canvas_label.setPixmap(pixmap)
-        canvas = QCApp.instance().active_window.canvas_label
+        #canvas = QCApp.instance().activeWindow().canvas_label.setPixmap(pixmap)
+        canvas = QCApp.instance().activeWindow().canvas_label
         #canvas.resize(pixmap.width(), pixmap.height())
         canvas.setMaximumSize(QSize(pixmap.width(), pixmap.height()))
         canvas.setPixmap(pixmap)
@@ -46,7 +46,7 @@ def file_open(signal):
         #pict = QPicture()
         #pict.loadFromData(buffer.read())
 
-        #QCApp.instance().active_window.canvas_label.setPicture(pict)
+        #QCApp.instance().activeWindow().canvas_label.setPicture(pict)
 
         #self.window.canvas_label.setPixmap(pixmap)
         #self.window.canvas_label.setScaledContents(True)

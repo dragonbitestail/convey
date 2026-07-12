@@ -37,8 +37,8 @@ class Action(QAction):
                f", func type: {type(func)} " f", args: {args}")
               )
 
-        # Reset icons to initial icon:
-        toolbar = QCApp.instance().active_window.toolbar
+        # Reset tools icons to initial icon:
+        toolbar = QCApp.instance().activeWindow().toolbar
         toolbar_actions = toolbar.get_group_actions("root")
         for action in toolbar_actions:
             print(f"[DEBUG]: Action > handle_trigger: actions w/ action: {action.text()}")
