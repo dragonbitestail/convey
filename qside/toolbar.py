@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QToolBar, QMenu, QFileDialog
+from PySide6.QtWidgets import QToolBar, QFileDialog
 from PySide6.QtGui import QPixmap
 
 from PySide6.QtCore import QSize
